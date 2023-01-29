@@ -10,7 +10,7 @@ module.exports = async (client) => {
 
     const activity = {
         name: `${client.prefix}play <songs>`,
-        type: 3,
+        type: 2,
     };
 
     client.user.setPresence({ 

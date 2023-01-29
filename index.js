@@ -1,3 +1,5 @@
+require('http').createServer((req, res) => res.end('200')).listen(process.env.PORT ?? 3000);
+
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { Manager } = require("erela.js");
 
