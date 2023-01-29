@@ -8,12 +8,11 @@ const { TOKEN, PREFIX, EMBED_COLOR } = require("./settings/config.js");
 
 const database = new Database(process.env.MONGO_URI ?? "");
 
-database.on("ready", () => console.log("MongoDB Ready ✅"));
-database.connect().then(_ => void 0).catch(console.error);
+database.on("ready", async() => {
+    console.log("MongoDB Ready ✅");
+    await database.set("bot", []);
 
-(async() => await database.set("bot", []))();
-
-for (let i = 0; i < TOKEN.length ; i++) {
+    for (let i = 0; i < TOKEN.length ; i++) {
       const client = new Client({
           shards: "auto",
           intents: [
@@ -26,7 +25,7 @@ for (let i = 0; i < TOKEN.length ; i++) {
           allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
-      (async() => await database.push("bot", client))();
+      await database.push("bot", client);
       client.db = database;
 
       client.config = require('./settings/config.js');
@@ -59,4 +58,7 @@ for (let i = 0; i < TOKEN.length ; i++) {
       ["loadCommand", "loadEvent", "loadPlayer", "loadDatabase"].forEach(x => require(`./handlers/${x}`)(client));
 
       client.login(client.token);
-}
+    }
+});
+
+database.connect().then(_ => void 0).catch(console.error);
