@@ -10,7 +10,7 @@ const database = new Database(process.env.MONGO_URI ?? "");
 
 database.on("ready", async() => {
     console.log("MongoDB Ready ✅");
-    await database.set("bot", []);
+    await database.set("@me", []);
 
     for (let i = 0; i < TOKEN.length ; i++) {
       const client = new Client({
@@ -25,7 +25,7 @@ database.on("ready", async() => {
           allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
-      await database.push("bot", client);
+      await database.push("@me", client);
       client.db = database;
 
       client.config = require('./settings/config.js');
