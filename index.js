@@ -6,13 +6,11 @@ const { Manager } = require("erela.js");
 
 const { TOKEN, PREFIX, EMBED_COLOR } = require("./settings/config.js");
 
-const database = new Database(process.env.MONGO_URI ?? "", { autoConnect: true });
+const database = new Database(process.env.MONGO_URI ?? "");
 
 database.on("error", console.error);
 
-database.on("ready", async() => {
-    console.log("[INFO] - MongoDB Ready ✅");
-});
+database.on("ready", () => console.log("[INFO] - MongoDB Ready ✅"));
 
 for (let i = 0; i < TOKEN.length ; i++) {
       const client = new Client({
@@ -59,4 +57,6 @@ for (let i = 0; i < TOKEN.length ; i++) {
       ["loadCommand", "loadEvent", "loadPlayer", "loadDatabase"].forEach(x => require(`./handlers/${x}`)(client));
 
       client.login(client.token);
-}
+};
+
+database.connect().then(_=>void 0);
