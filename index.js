@@ -1,11 +1,17 @@
 require('http').createServer((req, res) => res.end('200')).listen(process.env.PORT ?? 3000);
 
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
+const { Database } = require("quickmongo");
 const { Manager } = require("erela.js");
 
 const { TOKEN, PREFIX, EMBED_COLOR } = require("./settings/config.js");
 
-let _client = [];
+const database = new Database(process.env.MONGO_URI ?? "");
+
+database.on("ready", () => console.log("MongoDB Ready ✅"));
+database.connect().then(_ => void 0).catch(console.error);
+
+(async() => await database.set("bot", []))();
 
 for (let i = 0; i < TOKEN.length ; i++) {
       const client = new Client({
@@ -20,8 +26,7 @@ for (let i = 0; i < TOKEN.length ; i++) {
           allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
-      _client.push(client);
-      client.vmusic = _client;
+      (async() => await database.push("bot", client))();
 
       client.config = require('./settings/config.js');
       client.prefix = PREFIX[i];
