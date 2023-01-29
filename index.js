@@ -3,7 +3,9 @@ require('http').createServer((req, res) => res.end('200')).listen(process.env.PO
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const { Manager } = require("erela.js");
 
-const { TOKEN, PREFIX } = require("./settings/config.js");
+const { TOKEN, PREFIX, EMBED_COLOR } = require("./settings/config.js");
+
+let _client = [];
 
 for (let i = 0; i < TOKEN.length ; i++) {
       const client = new Client({
@@ -18,13 +20,16 @@ for (let i = 0; i < TOKEN.length ; i++) {
           allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
+      _client.push(client);
+      client.vmusic = _client;
+
       client.config = require('./settings/config.js');
       client.prefix = PREFIX[i];
       client.token = TOKEN[i];
+      client.color = EMBED_COLOR[i];
       
       client.owner = client.config.OWNER_ID;
       client.dev = client.config.DEV_ID;
-      client.color = client.config.EMBED_COLOR;
 
       process.on('unhandledRejection', error => console.log(error));
       process.on('uncaughtException', error => console.log(error));
