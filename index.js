@@ -6,7 +6,7 @@ const { Manager } = require("erela.js");
 
 const { TOKEN, PREFIX, EMBED_COLOR } = require("./settings/config.js");
 
-const database = new Database(process.env.MONGO_URI ?? "");
+const database = new Database(process.env.MONGO_URI ?? "", { autoConnect: true });
 const botlist = [];
 
 database.on("error", console.error);
@@ -28,7 +28,6 @@ database.on("ready", async() => {
       });
 
       botlist.push(client);
-      await database.set("@me", botlist);
       client.db = database;
 
       client.config = require('./settings/config.js');
@@ -62,6 +61,6 @@ database.on("ready", async() => {
 
       client.login(client.token);
     }
-});
 
-(async() => await database.connect())();
+    await database.set("@me", botlist);
+});
