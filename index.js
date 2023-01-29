@@ -12,7 +12,6 @@ database.on("error", console.error);
 
 database.on("ready", async() => {
     console.log("[INFO] - MongoDB Ready ✅");
-    await database.set("bot", { list: [] });
 
     for (let i = 0; i < TOKEN.length ; i++) {
       const client = new Client({
@@ -27,7 +26,7 @@ database.on("ready", async() => {
           allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
-      await database.push("bot.list", client);
+      await database.push("@me", client);
       client.db = database;
 
       client.config = require('./settings/config.js');
