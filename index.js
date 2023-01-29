@@ -27,6 +27,7 @@ for (let i = 0; i < TOKEN.length ; i++) {
       });
 
       (async() => await database.push("bot", client))();
+      client.db = database;
 
       client.config = require('./settings/config.js');
       client.prefix = PREFIX[i];
