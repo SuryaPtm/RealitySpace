@@ -26,7 +26,7 @@ module.exports = async (client, message) => {
     if(!command) return;
 
     if (!client.dev.includes(message.author.id) && client.dev.length > 0) { 
-      message.channel.send(`${message.author}, You are not a developer!`);
+      message.reply(`You are not a developer!`);
       console.log(`[WARN] - ${message.author.tag} trying request the command from ${message.guild.name} (Not a developer)`); 
       return;
     }
@@ -34,7 +34,7 @@ module.exports = async (client, message) => {
     const db = new Database(`./settings/models/access.json`, { databaseInObject: true });
     const database = await db.get("whitelist");
     if (!database.includes(message.guild.id) && database.length > 0) {
-      message.channel.send(`${message.author}, Donate: <https://ko-fi.com/nanotect> **Minimum: 100 THB (2.63 USD)** to get access all bots!\n**More Details:** <https://urlis.net/buy-whitelist>`);
+      message.reply(`Donate: <https://ko-fi.com/nanotect> **Minimum: 100 THB (2.63 USD)** to get access all bots!\n**More Details:** <https://urlis.net/buy-whitelist>`);
       console.log(`[WARN] - ${message.author.tag} trying request the command from ${message.guild.name} (Not Whitelisted)`);
       return;
     }

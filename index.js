@@ -30,7 +30,6 @@ for (let i = 0; i < TOKEN.length ; i++) {
       client.manager = new Manager({
         nodes: client.config.NODES,
         autoPlay: true,
-        volumeDecrementer: 0.75,
         forceSearchLinkQueries: true,
         defaultSearchPlatform: client.config.DEFAULT_SEARCH,
         allowedLinksRegexes: Object.values(Manager.regex),

@@ -10,12 +10,12 @@ module.exports = async (client) => {
 
     const activity = {
         name: `${client.prefix}play <songs>`,
-        type: 5,
+        type: 3,
     };
 
     client.user.setPresence({ 
         activities: [activity], 
-        status: 'dnd', 
+        status: 'online', 
         afk: true,
     });
 };
