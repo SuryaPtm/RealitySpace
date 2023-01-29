@@ -27,6 +27,7 @@ database.on("ready", async() => {
           allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
+      botlist.push(client);
       await database.set("@me", botlist);
       client.db = database;
 
