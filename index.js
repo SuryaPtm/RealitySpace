@@ -7,6 +7,7 @@ const { Manager } = require("erela.js");
 const { TOKEN, PREFIX, EMBED_COLOR } = require("./settings/config.js");
 
 const database = new Database(process.env.MONGO_URI ?? "");
+const botlist = [];
 
 database.on("error", console.error);
 
@@ -26,7 +27,7 @@ database.on("ready", async() => {
           allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
-      await database.push("@me", client);
+      await database.set("@me", botlist);
       client.db = database;
 
       client.config = require('./settings/config.js');
