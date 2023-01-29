@@ -9,7 +9,7 @@ const { TOKEN, PREFIX, EMBED_COLOR } = require("./settings/config.js");
 const database = new Database(process.env.MONGO_URI ?? "");
 
 database.on("ready", async() => {
-    console.log("MongoDB Ready ✅");
+    console.log("[INFO] - MongoDB Ready ✅");
     await database.set("@me", []);
 
     for (let i = 0; i < TOKEN.length ; i++) {
