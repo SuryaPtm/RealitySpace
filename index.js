@@ -7,14 +7,14 @@ const { Manager } = require("erela.js");
 const { TOKEN, PREFIX, EMBED_COLOR } = require("./settings/config.js");
 
 const database = new Database(process.env.MONGO_URI ?? "", { autoConnect: true });
-const botlist = [];
 
 database.on("error", console.error);
 
 database.on("ready", async() => {
     console.log("[INFO] - MongoDB Ready ✅");
+});
 
-    for (let i = 0; i < TOKEN.length ; i++) {
+for (let i = 0; i < TOKEN.length ; i++) {
       const client = new Client({
           shards: "auto",
           intents: [
@@ -27,7 +27,6 @@ database.on("ready", async() => {
           allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
-      botlist.push(client);
       client.db = database;
 
       client.config = require('./settings/config.js');
@@ -60,7 +59,4 @@ database.on("ready", async() => {
       ["loadCommand", "loadEvent", "loadPlayer", "loadDatabase"].forEach(x => require(`./handlers/${x}`)(client));
 
       client.login(client.token);
-    }
-
-    await database.set("@me", botlist);
-});
+}
