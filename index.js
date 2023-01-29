@@ -13,7 +13,7 @@ for (let i = 0; i < TOKEN.length ; i++) {
               GatewayIntentBits.GuildVoiceStates,
               GatewayIntentBits.MessageContent,
           ],
-          allowedMentions: { parse: ["users", "roles"] },
+          allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
       client.config = require('./settings/config.js');
