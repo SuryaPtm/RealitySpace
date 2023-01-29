@@ -8,9 +8,11 @@ const { TOKEN, PREFIX, EMBED_COLOR } = require("./settings/config.js");
 
 const database = new Database(process.env.MONGO_URI ?? "");
 
+database.on("error", console.error);
+
 database.on("ready", async() => {
     console.log("[INFO] - MongoDB Ready ✅");
-    await database.set("@me", []);
+    await database.set("bot", { list: [] });
 
     for (let i = 0; i < TOKEN.length ; i++) {
       const client = new Client({
@@ -25,7 +27,7 @@ database.on("ready", async() => {
           allowedMentions: { parse: ["users", "roles"], repliedUser: false },
       });
 
-      await database.push("@me", client);
+      await database.push("bot.list", client);
       client.db = database;
 
       client.config = require('./settings/config.js');
@@ -61,4 +63,4 @@ database.on("ready", async() => {
     }
 });
 
-database.connect().then(_ => void 0).catch(console.error);
+(async() => await database.connect())();
